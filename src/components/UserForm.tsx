@@ -7,29 +7,34 @@ import { useForm } from "react-hook-form"
 
 const UserForm = ({ user }: any) => {
     const router = useRouter()
-    const params = useParams<{id: string}>()
+    const params = useParams<{ id: string }>()
 
     const { register, handleSubmit } = useForm<IUser>({
         defaultValues: {
-            name: user?.name
+            fullname: user?.fullname,
+            age: user?.age,
+            address: user?.address
         }
     })
 
     const onSubmit = handleSubmit(async (data) => {
         if (params?.id) {
-            await updateUser(params.id, data)
+            await updateUser(params.id, { ...data, age: Number(data.age) })
         } else {
-            await addUser(data)
+            await addUser({ ...data, age: Number(data.age) })
         }
-        router.push('/')
-        router.refresh()
+        router.push('/user'); router.refresh()
     })
 
     return <div className="card">
         <form onSubmit={onSubmit}>
-            <input type="text" placeholder="User name"
-                {...register('name')}
-            />
+
+            <input type="text" placeholder="Fullname" {...register('fullname')} />
+
+            <input type="text" placeholder="Age" {...register('age')} />
+
+            <input type="text" placeholder="Address" {...register('address')} />
+
             <button type="submit">
                 {params.id ? 'Update' : 'Create'}
             </button>

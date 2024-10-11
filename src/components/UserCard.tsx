@@ -11,13 +11,17 @@ const UserCard = ({ user }: Record<string, any>) => {
     }
 
     return <div className="card">
-        <li>{user.name}</li>
-        <button onClick={() => {
-            handleRemoveUser(user.id)
-        }}>Remove</button>
-        <button onClick={() => {
-            router.push(`/user/save/${user.id}`)
-        }}>Update</button>
+        <div className="d-flex">
+            <p>{user.fullname}, {user.age}, {user.address}</p>
+            <div>
+                <button onClick={() => {
+                    handleRemoveUser(user.id)
+                }}>Remove</button>
+                <button onClick={() => {
+                    router.push(`/user/save/${user.id}`)
+                }}>Update</button>
+            </div>
+        </div>
     </div>
 }
 
